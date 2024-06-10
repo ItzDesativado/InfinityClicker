@@ -1,0 +1,171 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+#clicker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 90%;
+}
+
+#xp-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#xp-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(#ddd 0%, #ddd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#xp-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
+
+#click-button {
+    padding: 20px;
+    font-size: 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+#click-button:hover {
+    background-color: #45a049;
+}
+
+#score {
+    margin-top: 20px;
+    font-size: 32px;
+    color: #333;
+}
+
+#info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#info div {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+#upgrades {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#upgrades button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#upgrades button:hover {
+    background-color: #007B9A;
+}
+
+.click-animation {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: red;
+    animation: fade 3s forwards;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-50px);
+    }
+}
+
+@media (max-width: 600px) {
+    #click-button {
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    #score {
+        font-size: 24px;
+    }
+
+    #info div {
+        font-size: 16px;
+    }
+
+    #upgrades button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    #click-button {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    #score {
+        font-size: 20px;
+    }
+
+    #info div {
+        font-size: 14px;
+    }
+
+    #upgrades button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    #xp-circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    #xp-text {
+        font-size: 14px;
+    }
+}

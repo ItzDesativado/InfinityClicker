@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Clicker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="clicker-container">
+        <div id="xp-container">
+            <div id="xp-circle"></div>
+            <div id="xp-text">XP: 0/10</div>
+        </div>
+        <button id="click-button">Clique em mim!</button>
+        <div id="score">Pontos: 0</div>
+        <div id="info">
+            <div id="autoclick-status">Autoclick: Desativado</div>
+            <div id="click-value">Valor por clique: 0.1</div>
+            <div id="click-upgrade-level">Nível do Upgrade de Clique: 0</div>
+            <div id="auto-upgrade-level">Nível do Upgrade Automático: 0</div>
+            <div id="level-display">Nível: 1</div>
+        </div>
+        <div id="upgrades">
+            <button id="click-upgrade">Upgrade de Clique (20 pontos)</button>
+            <button id="auto-upgrade">Upgrade Automático (50 pontos)</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let clickValue = 0.1;
+        let autoValue = 0.1;
+        let clickUpgradeCost = 20;
+        let autoUpgradeCost = 50;
+        let autoInterval = 5000;
+        let clickLevel = 0;
+        let autoLevel = 0;
+        let autoClickEnabled = false;
+
+        let level = 1;
+        let xp = 0;
+        let xpRequired = 10;
+
+        const clickButton = document.getElementById('click-button');
+        const scoreDisplay = document.getElementById('score');
+        const clickUpgradeButton = document.getElementById('click-upgrade');
+        const autoUpgradeButton = document.getElementById('auto-upgrade');
+        const autoclickStatus = document.getElementById('autoclick-status');
+        const clickValueDisplay = document.getElementById('click-value');
+        const clickUpgradeLevelDisplay = document.getElementById('click-upgrade-level');
+        const autoUpgradeLevelDisplay = document.getElementById('auto-upgrade-level');
+        const levelDisplay = document.getElementById('level-display');
+        const xpCircle = document.getElementById('xp-circle');
+        const xpText = document.getElementById('xp-text');
+
+        clickButton.addEventListener('click', () => {
+            score += clickValue;
+            scoreDisplay.textContent = 'Pontos: ' + score.toFixed(1);
+            addXP(0.1);
+            showClickAnimation();
+        });
+
+        clickUpgradeButton.addEventListener('click', () => {
+            if (score >= clickUpgradeCost) {
+                score -= clickUpgradeCost;
+                clickValue += 0.1;
+                clickLevel++;
+                clickUpgradeCost = Math.floor(20 * Math.pow(1.2, clickLevel));
+                clickUpgradeButton.textContent = `Upgrade de Clique (${clickUpgradeCost} pontos)`;
+                scoreDisplay.textContent = 'Pontos: ' + score.toFixed(1);
+                clickValueDisplay.textContent = 'Valor por clique: ' + clickValue.toFixed(1);
+                clickUpgradeLevelDisplay.textContent = 'Nível do Upgrade de Clique: ' + clickLevel;
+            }
+        });
+
+        autoUpgradeButton.addEventListener('click', () => {
+            if (score >= autoUpgradeCost) {
+                score -= autoUpgradeCost;
+                autoLevel++;
+                autoValue += 0.1;
+                autoUpgradeCost = Math.floor(50 * Math.pow(1.2, autoLevel));
+                autoUpgradeButton.textContent = `Upgrade Automático (${autoUpgradeCost} pontos)`;
+                scoreDisplay.textContent = 'Pontos: ' + score.toFixed(1);
+                autoUpgradeLevelDisplay.textContent = 'Nível do Upgrade Automático: ' + autoLevel;
+                
+                if (!autoClickEnabled) {
+                    autoClickEnabled = true;
+                    autoclickStatus.textContent = 'Autoclick: Ativado';
+                    startAutoClick();
+                }
+            }
+        });
+
+        function startAutoClick() {
+            setInterval(() => {
+                if (autoClickEnabled) {
+                    score += autoValue;
+                    scoreDisplay.textContent = 'Pontos: ' + score.toFixed(1);
+                }
+            }, autoInterval);
+        }
+
+        function addXP(amount) {
+            xp += amount;
+            if (xp >= xpRequired) {
+                xp -= xpRequired;
+                level++;
+                xpRequired = Math.floor(10 * Math.pow(1.5, level - 1));
+                levelDisplay.textContent = 'Nível: ' + level;
+            }
+            xpText.textContent = `XP: ${xp.toFixed(1)}/${xpRequired}`;
+            updateXPCircle();
+        }
+
+        function updateXPCircle() {
+            const progress = (xp / xpRequired) * 100;
+            xpCircle.style.background = `conic-gradient(#4CAF50 ${progress}%, #ddd ${progress}%)`;
+        }
+
+        function showClickAnimation() {
+            const animation = document.createElement('div');
+            animation.className = 'click-animation';
+            animation.textContent = `+${clickValue.toFixed(1)}`;
+            clickButton.appendChild(animation);
+
+            setTimeout(() => {
+                animation.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
